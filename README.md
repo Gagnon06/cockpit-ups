@@ -1,6 +1,8 @@
-# Cockpit Starter Kit
+# Cockpit UPS
 
-Scaffolding for a [Cockpit](http://www.cockpit-project.org) module.
+Cockpit module offering an interface for UPS.
+
+This repo is forked from the official "starter-kit" : https://github.com/cockpit-project/starter-kit.git
 
 # Getting and building the source
 
@@ -8,8 +10,8 @@ Make sure you have `npm` available (usually from your distribution package).
 These commands check out the source and build it into the `dist/` directory:
 
 ```
-git clone https://github.com/cockpit-project/starter-kit.git
-cd starter-kit
+git clone https://github.com/gagnon06/cockpit-ups.git
+cd cockpit-ups
 make
 ```
 
@@ -27,7 +29,7 @@ tree. To do that, link that to the location were `cockpit-bridge` looks for pack
 
 ```
 mkdir -p ~/.local/share/cockpit
-ln -s `pwd`/dist ~/.local/share/cockpit/starter-kit
+ln -s `pwd`/dist ~/.local/share/cockpit/ups
 ```
 
 After changing the code and running `make` again, reload the Cockpit page in
@@ -51,7 +53,7 @@ the remote hostname.
 
 # Running eslint
 
-Cockpit Starter Kit uses [ESLint](https://eslint.org/) to automatically check
+Cockpit UPS uses [ESLint](https://eslint.org/) to automatically check
 JavaScript code style in `.js` and `.jsx` files.
 
 The linter is executed within every build as a webpack preloader.
@@ -108,15 +110,6 @@ tests are wrapped in the [FMF metadata format](https://github.com/psss/fmf)
 for using with the [tmt test management tool](https://docs.fedoraproject.org/en-US/ci/tmt/).
 Note that Packit tests can *not* run their own virtual machine images, thus
 they only run [@nondestructive tests](https://github.com/martinpitt/cockpit/blob/main/test/common/testlib.py).
-
-# Customizing
-
-After cloning the Starter Kit you should rename the files, package names, and
-labels to your own project's name. Use these commands to find out what to
-change:
-
-    find -iname '*starter*'
-    git grep -i starter
 
 # Automated release
 

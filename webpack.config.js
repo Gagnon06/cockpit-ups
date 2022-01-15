@@ -43,6 +43,7 @@ module.exports = {
     resolve: {
         modules: [ "node_modules", path.resolve(__dirname, 'src/lib') ],
         alias: { 'font-awesome': 'font-awesome-sass/assets/stylesheets' },
+        extensions: ['.js', '.jsx'],
     },
     resolveLoader: {
         modules: [ "node_modules", path.resolve(__dirname, 'src/lib') ],
