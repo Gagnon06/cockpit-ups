@@ -17,33 +17,53 @@
  * along with Cockpit; If not, see <http://www.gnu.org/licenses/>.
  */
 
-import cockpit from 'cockpit';
 import React from 'react';
-import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
+import { Tabs, Tab, TabTitleText, Bullseye, Spinner } from '@patternfly/react-core';
+import UpsPage from './ups-components';
+import Nut from './nut';
 
-const _ = cockpit.gettext;
+function UpsTabs(props) {
+    const upsList = props.upsList;
+    const listItems = upsList.map((ups, idx) =>
+        <Tab key={ups.name} eventKey={idx} title={<TabTitleText>{ups.name}</TabTitleText>}>
+            <UpsPage ups={ups} />
+        </Tab>
+    );
+    return (
+        <Tabs defaultActiveKey={0} isBox>{listItems}</Tabs>
+    );
+}
 
 export class Application extends React.Component {
     constructor() {
         super();
-        this.state = { hostname: _("Unknown") };
+        this.state = {
+            allUps: []
+        };
 
-        cockpit.file('/etc/hostname').watch(content => {
-            this.setState({ hostname: content.trim() });
-        });
+        const nut = new Nut();
+
+        nut.getAllUps()
+                .then(allUps => {
+                    this.setState({ allUps: allUps });
+                    console.log(this.state.allUps);
+                })
+                .catch(() => {
+                    console.error("Unable to get UPS list");
+                });
     }
 
     render() {
-        return (
-            <Card>
-                <CardTitle>Starter Kit</CardTitle>
-                <CardBody>
-                    <Alert
-                        variant="info"
-                        title={ cockpit.format(_("Running on $0"), this.state.hostname) }
-                    />
-                </CardBody>
-            </Card>
-        );
+        if (this.state.allUps.length === 0) {
+            return (
+                <Bullseye>
+                    <Spinner isSVG size="xl" />
+                </Bullseye>
+            );
+        } else {
+            return (
+                <UpsTabs upsList={this.state.allUps} />
+            );
+        }
     }
 }
